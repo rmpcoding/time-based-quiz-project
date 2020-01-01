@@ -1,0 +1,15 @@
+#display-css-time {
+  display: block;
+  float: right;
+  text-align: right;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column; 
+}
+
+.card-body button {
+  margin-bottom: 1.5%;
+} 
+

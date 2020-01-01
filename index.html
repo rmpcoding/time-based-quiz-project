@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quiz HW</title>
+    <!-- media viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="app.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- view high scores -->
+      <!-- Eventually will to put in the total answers correct by count incrementor -->
+      <div class="row mb-5 mt-3">
+        <h5
+          class="col-sm-4"
+          class="text-sm-left"
+          class="float-left"
+          id="display-css-scores"
+        >
+          View High Scores<span id="appendStorage"></span>
+        </h5>
+        <span class="col-sm-4"></span>
+
+        <!-- time display countdown -->
+        <h5
+          class="col-sm-4"
+          class="text-sm-right"
+          class="float-right"
+          id="display-css-time"
+        >
+          time: <span id="display-time">100</span>
+        </h5>
+      </div>
+
+      <!-- Start Quiz Card & Button -->
+      <div class="contains-cards">
+        <div class="card">
+          <div class="card-body" id="start-quiz-text">
+            <h5 class="card-title">Start Quiz</h5>
+            <p class="card-text">
+              Start your quiz now! Once you start, a timer from 100 will begin
+              to countdown to zero.<br /><br />Remember, if you click on the
+              wrong answer, a penalty of 15 seconds will deduct from the timer.
+              After you finish (or the timer runs out), a form will appear for
+              you to enter your initials. Good luck!
+            </p>
+            <button id="start-quiz" type="button" class="btn btn-light btn-lg">
+              <span class="card-text"
+                ><small class="text-muted">Start Quiz</small></span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  </body>
+</html>
