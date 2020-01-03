@@ -32,35 +32,43 @@ var questions = [
   }
 ];
 
-  var id = 0;
-  var time = 100;
-  var questionOne = questions[0].title;
-  var score; //use this to add scores
-  let buttonTemplate;
-  var buttonText = document.getElementsByClassName("choice-button")
+var id = 0;
+let incrementFromZero = 0
+var time = 100;
+var score = 0;
+let buttonTemplate;
+var buttonText = document.getElementsByClassName("choice-button")
 
   
-  const choices = (objIndex, arrIndex) => { questions.forEach(() => {
-    questions[objIndex].choices[arrIndex]
-    buttonTemplate = 
-       `<button
-         type="button"
-         class="btn btn-light btn-lg col-sm-3 d-block choice-button my-4 mx-auto"
-        >
-        <span class="card-text ">
-          <small 
-            class="text-muted"> ${questions[objIndex].choices[arrIndex]} 
-          </small>
-        </span>
-       </button>`
+const choices = (objIndex, arrIndex) => { questions.forEach(() => {
+  if (objIndex === 5) {
+    // Create card template variable
+    // should return the template needed for the last card
+    // template literal variables should store high scores and stuff
+    // select form from bootstramp to enter initials
+      // once submitted, set to local storage
+      // if desired, clear local storage
+  }
+  questions[objIndex].choices[arrIndex]
+  buttonTemplate = 
+      `<button
+        type="button"
+        class="btn btn-light btn-lg col-sm-3 d-block choice-button my-4 mx-auto"
+      >
+      <span class="card-text ">
+        <small 
+          class="text-muted"> ${questions[objIndex].choices[arrIndex]} 
+        </small>
+      </span>
+      </button>`
   });
   return buttonTemplate;
 }
 
 $(document).ready(() => {
 
-  // start timer/quiz function
-  // ====================================================================================================
+// start timer/quiz function
+// ====================================================================================================
   $("#start-quiz").on("click", () => {
     var timeInterval = setInterval(function() {
       if (time === 0) {
@@ -77,7 +85,6 @@ $(document).ready(() => {
 }); // Do not erase. End of jQuery;
 
 const createCard = (n) => {
-  // id=n;
   $(".contains-cards").html(`
     <div class="card">
       <div class="card-body" id="question-card">
@@ -91,83 +98,118 @@ const createCard = (n) => {
       </div>
     </div>`);
     incrementId()
-    // console.log($(".choice-button").textContent())
-    clickNextQuestion(id);
-    // check answers via function
 };
 
-
-// generates questions
+// incrementor
 // ====================================================================================================
-const answerGenerator = (objIndex) => {
-  questions.forEach(() => {
-    questions[objIndex].answer
+const incrementId = () => {
+  let nextQuestionId = $(".choice-button")
+  nextQuestionId.on("click", () => {
+    id++;
+    nextQuestion(id);
   })
-  return questions[objIndex].answer.toLowerCase().trim()
 }
 
-
-const answerChecker = (n) => {
-  console.log(n)
-  console.log(id)
-  console.log(answerGenerator(id))
-  answerGenerator(n);
-  let buttonClicked = $(event.currentTarget)[0].innerText.toLowerCase().toString().trim()
-    if (buttonClicked === answerGenerator(n)) {
-      console.log(true)
-      // move onto next question with id param set as 2;
-      // no penalty
-        // add one to score;
-    } else {
-      console.log(false)
-      // move onto next question with id param set as 2;
-      // penalty
-        // do not add one to score
-    }
+// next question after incrementation
+// ====================================================================================================
+const nextQuestion = (n) => {
+  if (n === 1) {
+    clickNextQuestion(n);
+    console.log("nextQuestion function at id 1")
   }
-
-  const clickNextQuestion = (n) => {
-    if (id === 1) {
-      console.log("I'm able to do it;")
-    }
-    buttonText[0].addEventListener("click", answerChecker(n))
+  if (n === 2) {
+    clickNextQuestion(n);
+    console.log("nextQuestion function at id 2")
+  } 
+  if (n === 3) {
+    clickNextQuestion(n);
+    console.log("nextQuestion function at id 3")
   }
-
-  const incrementId = () => {
-    let nextQuestionId = $(".choice-button")
-    nextQuestionId.on("click", () => {
-      id+=1;
-      nextQuestion(id);
-    })
+  if (n === 4) {
+    clickNextQuestion(n);
+    console.log("nextQuestion function at id 4")
   }
-
-  const nextQuestion = (n) => {
-    console.log(id)
-    if (n === 1) {
-      createCard(n)
-      console.log("nextQuestion function at id 1")
-    }
-    if (id === 2) {
-      createCard(2)
-      console.log("nextQuestion function at id 2")
-    } 
-    if (id === 3) {
-      createCard(3)
-      console.log("nextQuestion function at id 3")
-    }
-    if (id === 4) {
-      createCard(4)
-      console.log("nextQuestion function at id 4")
-    }
+  if (n === 5) {
+    clickNextQuestion(n);
+    console.log("nextQuestion function at id 5")
   }
+}
+
+// click next question
+// ====================================================================================================
+const clickNextQuestion = (n) => {
+  // if (id === n) {
+    buttonText[0].addEventListener("click", answerChecker(id, incrementFromZero))
+  // }
+}
+
+// checks answers
+// ====================================================================================================
+const answerChecker = (idParam, answerIndex) => {
+
+  let buttonClicked = $(event.target)[0].innerText.toLowerCase().toString().trim()
+  let correctAnswer = questions[answerIndex].answer.toLowerCase().toString().trim()
+  
+  incrementFromZero++;
+
+  switch (idParam , buttonClicked) {
+
+    case 1 , correctAnswer:
+      score++;
+      createCard(idParam)
+    break;
+
+    case 2 , correctAnswer:
+      score++;
+      createCard(idParam)
+    break;
+
+    case 3 , correctAnswer:
+      score++;
+      createCard(idParam)
+    break;
+
+    case 4 , correctAnswer:
+      score++;
+      createCard(idParam)
+    break;
+
+    case 5 , correctAnswer:
+      score++;
+      createCard(idParam)
+    break;
+
+    default:
+      console.log("DEFAULT")
+      createCard(idParam)
+      time -= 15;
+  } 
+}
+
+// returns answer for each question
+// ====================================================================================================
+const returnAnswer = (n) => {
+  if (n < 5) {
+    // return console.log(n)
+    return questions[n].answer.toLowerCase().toString().trim()
+  } else
+  if (n = 5) {
+    return questions[4].answer.toLowerCase().toString().trim()
+  }
+}
 
 // generates questions
 // ====================================================================================================
 const question = (objIndex) => {
-  questions.forEach(() => {
-    questions[objIndex].title
-  })
-  return questions[objIndex].title
+  if (objIndex >= 5) {
+    console.log("You've reached the end of your quiz.")
+    return "";
+  } else {
+    questions.forEach(() => {
+      questions[objIndex].title
+    })
+    return questions[objIndex].title
+  }
 }
 
 // set local storage area
@@ -203,6 +245,15 @@ const answeredCorrectlyStyleChange = () => {
     // console.log(buttonText[0].addEventListener(("click"), answerChecker()))
 
 
+    // generates questions
+// ====================================================================================================
+// const answerGenerator = (objIndex) => {
+//   console.log(objIndex)
+//   questions.forEach(() => {
+//     questions[objIndex].answer
+//   })
+//   return questions[objIndex].answer.toLowerCase().trim()
+// }
 
     // if (  !== buttonText[0].innerText)
 
@@ -240,6 +291,57 @@ const answeredCorrectlyStyleChange = () => {
 //     }
 //     return button;
 //   }
+
+
+
+
+
+
+  // if (buttonClicked === questions[0].answer) {
+  //   score++;
+  //   console.log(score)
+  //   createCard(1)
+  // } else if (buttonClicked !== questions[0].answer) {
+  //   console.log("wrong answer")
+  //   // no incrementation of score
+  //   createCard(1)
+  // } else
+
+  // if ((buttonClicked === questions[1].answer)) {
+  //   score++;
+  //   console.log(score)
+  //   createCard(2)
+  // } else if (buttonClicked !== questions[1].answer) {
+  //   // no incrementation of score
+  //   createCard(2)
+  // }
+
+  // if ((buttonClicked === returnAnswer(2))) {
+  //   score++;
+  //   createCard(3)
+  // } else {
+  //   // no incrementation of score
+  //   createCard(3)
+  // }
+  // if ((buttonClicked === returnAnswer(3))) {
+  //   score++;
+  //   createCard(4)
+  // } else {
+  //   // no incrementation of score
+  //   createCard(4)
+  // }
+  // if ((buttonClicked === returnAnswer(4))) {
+  //   score++;
+  //   createCard(5)
+  // } else {
+  //   // no incrementation of score
+  //   createCard(5)
+  // }
+  // if ((buttonClicked === returnAnswer(5))) {
+  //   score++;
+  //   console.log(score)
+  //   console.log(returnAnswer(5))
+  // }
 
   // let answerToQuestionOne = questions[0].answer.toLowerCase().toString().trim()
   // let answerToQuestionTwo = questions[1].answer.toLowerCase().toString().trim()
