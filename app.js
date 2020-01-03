@@ -33,13 +33,51 @@ var questions = [
 ];
 
 var id = 0;
-let incrementFromZero = 0
+let incrementFromZero = 0 //this will be needed later on to use as an argument
 var time = 100;
 var score = 0;
 let buttonTemplate;
 var buttonText = document.getElementsByClassName("choice-button")
 
-  
+// Commence jQuery
+// ===============================
+$(document).ready(() => {
+
+  $("#start-quiz").on("click", () => {
+    var timeInterval = setInterval(function() {
+      if (time === 0) {
+        $("#display-time").text(time);
+        clearInterval(timeInterval);
+      } else {
+        $("#display-time").text(time);
+        time--;
+      }
+    }, 1000);
+    hideCard();
+    createCard(0);
+  });
+}); 
+// End jQuery
+// ===============================
+
+const createCard = (n) => {
+  $(".contains-cards").html(`
+    <div class="card">
+      <div class="card-body" id="question-card">
+        <h5 class="card-title d-flex justify-content-center">${question(n)}</h5>
+        <div id="button-container">
+        ${choices(n,0)}
+        ${choices(n,1)}
+        ${choices(n,2)}
+        ${choices(n,3)}
+        </div>
+      </div>
+    </div>`);
+    incrementId()
+};
+
+// question choices for user to select
+// ====================================================================================================
 const choices = (objIndex, arrIndex) => { questions.forEach(() => {
   if (objIndex === 5) {
     // Create card template variable
@@ -65,54 +103,19 @@ const choices = (objIndex, arrIndex) => { questions.forEach(() => {
   return buttonTemplate;
 }
 
-$(document).ready(() => {
-
-// start timer/quiz function
-// ====================================================================================================
-  $("#start-quiz").on("click", () => {
-    var timeInterval = setInterval(function() {
-      if (time === 0) {
-        $("#display-time").text(time);
-        clearInterval(timeInterval);
-      } else {
-        $("#display-time").text(time);
-        time--;
-      }
-    }, 1000);
-    hideCard();
-    createCard(0);
-  });
-}); // Do not erase. End of jQuery;
-
-const createCard = (n) => {
-  $(".contains-cards").html(`
-    <div class="card">
-      <div class="card-body" id="question-card">
-        <h5 class="card-title d-flex justify-content-center">${question(n)}</h5>
-        <div id="button-container">
-        ${choices(n,0)}
-        ${choices(n,1)}
-        ${choices(n,2)}
-        ${choices(n,3)}
-        </div>
-      </div>
-    </div>`);
-    incrementId()
-};
-
-// incrementor
+// incrementor for identifying questions in the questions array
 // ====================================================================================================
 const incrementId = () => {
   let nextQuestionId = $(".choice-button")
   nextQuestionId.on("click", () => {
     id++;
-    nextQuestion(id);
+    sequenceLogic(id);
   })
 }
 
-// next question after incrementation
+// sequence of questions through each id incrementation
 // ====================================================================================================
-const nextQuestion = (n) => {
+const sequenceLogic = (n) => {
   if (n === 1) {
     clickNextQuestion(n);
     console.log("nextQuestion function at id 1")
@@ -135,12 +138,10 @@ const nextQuestion = (n) => {
   }
 }
 
-// click next question
+// when user clicks choice, next question
 // ====================================================================================================
 const clickNextQuestion = (n) => {
-  // if (id === n) {
     buttonText[0].addEventListener("click", answerChecker(id, incrementFromZero))
-  // }
 }
 
 // checks answers
@@ -153,7 +154,6 @@ const answerChecker = (idParam, answerIndex) => {
   incrementFromZero++;
 
   switch (idParam , buttonClicked) {
-
     case 1 , correctAnswer:
       score++;
       createCard(idParam)
@@ -190,10 +190,9 @@ const answerChecker = (idParam, answerIndex) => {
 // ====================================================================================================
 const returnAnswer = (n) => {
   if (n < 5) {
-    // return console.log(n)
     return questions[n].answer.toLowerCase().toString().trim()
   } else
-  if (n = 5) {
+  if (n === 5) {
     return questions[4].answer.toLowerCase().toString().trim()
   }
 }
@@ -295,7 +294,8 @@ const answeredCorrectlyStyleChange = () => {
 
 
 
-
+// start timer/quiz function
+// ====================================================================================================
 
   // if (buttonClicked === questions[0].answer) {
   //   score++;
