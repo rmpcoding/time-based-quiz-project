@@ -61,6 +61,17 @@ $(document).ready(() => {
 // ===============================
 
 const createCard = (n) => {
+  if (n > 4) {
+    console.log("hello")
+    finalCard();
+    console.log(score)
+
+    // template literal variables should store high scores and stuff
+    // select form from bootstramp to enter initials
+      // once submitted, set to local storage
+      // if desired, clear local storage
+  } else {
+
   $(".contains-cards").html(`
     <div class="card">
       <div class="card-body" id="question-card">
@@ -74,31 +85,24 @@ const createCard = (n) => {
       </div>
     </div>`);
     incrementId()
+  }
 };
 
 // question choices for user to select
 // ====================================================================================================
 const choices = (objIndex, arrIndex) => { questions.forEach(() => {
-  if (objIndex === 5) {
-    // Create card template variable
-    // should return the template needed for the last card
-    // template literal variables should store high scores and stuff
-    // select form from bootstramp to enter initials
-      // once submitted, set to local storage
-      // if desired, clear local storage
-  }
-  questions[objIndex].choices[arrIndex]
-  buttonTemplate = 
-      `<button
-        type="button"
-        class="btn btn-light btn-lg col-sm-3 d-block choice-button my-4 mx-auto"
-      >
-      <span class="card-text ">
-        <small 
-          class="text-muted"> ${questions[objIndex].choices[arrIndex]} 
-        </small>
-      </span>
-      </button>`
+    questions[objIndex].choices[arrIndex]
+    buttonTemplate = 
+        `<button
+          type="button"
+          class="btn btn-light btn-lg col-sm-3 d-block choice-button my-4 mx-auto"
+        >
+        <span class="card-text ">
+          <small 
+            class="text-muted"> ${questions[objIndex].choices[arrIndex]} 
+          </small>
+        </span>
+        </button>`
   });
   return buttonTemplate;
 }
@@ -159,31 +163,58 @@ const answerChecker = (idParam, answerIndex) => {
       createCard(idParam)
     break;
 
-    case 2 , correctAnswer:
-      score++;
-      createCard(idParam)
-    break;
+    // case 2 , correctAnswer:
+    //   score++;
+    //   createCard(idParam)
+    // break;
 
-    case 3 , correctAnswer:
-      score++;
-      createCard(idParam)
-    break;
+    // case 3 , correctAnswer:
+    //   score++;
+    //   createCard(idParam)
+    // break;
 
-    case 4 , correctAnswer:
-      score++;
-      createCard(idParam)
-    break;
+    // case 4 , correctAnswer:
+    //   score++;
+    //   createCard(idParam)
+    // break;
 
-    case 5 , correctAnswer:
-      score++;
-      createCard(idParam)
-    break;
+    // case 5 , correctAnswer:
+    //   score++;
+    //   console.log("case 5")
+    // break;
+
+    // case 5 , !correctAnswer:
+    //   time -= 15;
+    // break;
 
     default:
-      console.log("DEFAULT")
       createCard(idParam)
       time -= 15;
   } 
+}
+
+// final card template 
+// ====================================================================================================
+
+const finalCard = () => {
+  console.log("Inside finalCard")
+  return $(".contains-cards").html(`
+  <div class="card">
+    <div class="card-body" id="question-card">
+      <h5 class="card-title d-flex justify-content-center">You've reached the end! You're score is ${score} out of 5</h5>
+
+      <form>
+        <div class="form">
+          <label for="email-id">Enter your initials</label>
+          <input type="text" class="form-control" id="email-id" aria-describedby="emailHelp">
+          <small id="emailHelp" class="form-text text-muted">You can choose to clear this from local storage.</small>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-warning">Clear</button>
+      </form>
+
+    </div>
+  </div>`)
 }
 
 // returns answer for each question
@@ -230,6 +261,7 @@ const answeredCorrectlyStyleChange = () => {
   // $("#start-quiz-text").css("border", "3px solid #9CC7C5"); //start quiz card border green
   $(event.currentTarget).css("border", "3px solid #8CC7C5"); //start quiz button border green
 };
+
 
 
 
@@ -390,3 +422,20 @@ const answeredCorrectlyStyleChange = () => {
 // ${choices(3, 1)}
 // ${choices(3, 2)}
 // ${choices(3, 3)}
+
+
+
+
+
+
+      // if (idParam === 5 && buttonClicked !== correctAnswer) {
+      //   time -= 15;
+      //   console.log(score + " you've reached the end. Last answer was wrong")
+      //   console.log(idParam === 5 && buttonClicked === correctAnswer)
+      //   finalCard();
+      //   break;
+      // } else if (idParam === 5 && buttonClicked === correctAnswer){
+      //   score++;
+      //   console.log(score + " you've reached the end. Correctly chose final answer")
+      //   finalCard();
+      // }
