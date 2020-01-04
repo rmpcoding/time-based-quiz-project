@@ -33,11 +33,13 @@ var questions = [
 ];
 
 var id = 0;
-let incrementFromZero = 0 //this will be needed later on to use as an argument
+let incrementFromZero = 0 //this will be needed later on to use as an argument for checking answer index
 var time = 100;
 var score = 0;
 let buttonTemplate;
 var buttonText = document.getElementsByClassName("choice-button")
+var startQuizId = "#start-quiz-text"
+var questionCardId = ".contains-cards"
 
 // Commence jQuery
 // ===============================
@@ -53,7 +55,7 @@ $(document).ready(() => {
         time--;
       }
     }, 1000);
-    hideCard();
+    hideCard(startQuizId);
     createCard(0);
   });
 }); 
@@ -62,14 +64,11 @@ $(document).ready(() => {
 
 const createCard = (n) => {
   if (n > 4) {
-    console.log("hello")
+    $(questionCardId).hide()
     finalCard();
-    console.log(score)
-
-    // template literal variables should store high scores and stuff
-    // select form from bootstramp to enter initials
       // once submitted, set to local storage
       // if desired, clear local storage
+      // view high scores button should show scores and initials
   } else {
 
   $(".contains-cards").html(`
@@ -151,45 +150,22 @@ const clickNextQuestion = (n) => {
 // checks answers
 // ====================================================================================================
 const answerChecker = (idParam, answerIndex) => {
-
   let buttonClicked = $(event.target)[0].innerText.toLowerCase().toString().trim()
   let correctAnswer = questions[answerIndex].answer.toLowerCase().toString().trim()
-  
+
   incrementFromZero++;
 
-  switch (idParam , buttonClicked) {
-    case 1 , correctAnswer:
+  switch (buttonClicked) {
+    case correctAnswer:
+      console.log("Correct!")
       score++;
       createCard(idParam)
     break;
 
-    // case 2 , correctAnswer:
-    //   score++;
-    //   createCard(idParam)
-    // break;
-
-    // case 3 , correctAnswer:
-    //   score++;
-    //   createCard(idParam)
-    // break;
-
-    // case 4 , correctAnswer:
-    //   score++;
-    //   createCard(idParam)
-    // break;
-
-    // case 5 , correctAnswer:
-    //   score++;
-    //   console.log("case 5")
-    // break;
-
-    // case 5 , !correctAnswer:
-    //   time -= 15;
-    // break;
-
     default:
-      createCard(idParam)
+      console.log("WRONG!")
       time -= 15;
+      createCard(idParam)
   } 
 }
 
@@ -197,8 +173,10 @@ const answerChecker = (idParam, answerIndex) => {
 // ====================================================================================================
 
 const finalCard = () => {
+  hideCard(questionCardId)
   console.log("Inside finalCard")
-  return $(".contains-cards").html(`
+
+  $(".final").html(`
   <div class="card">
     <div class="card-body" id="question-card">
       <h5 class="card-title d-flex justify-content-center">You've reached the end! You're score is ${score} out of 5</h5>
@@ -209,12 +187,16 @@ const finalCard = () => {
           <input type="text" class="form-control" id="email-id" aria-describedby="emailHelp">
           <small id="emailHelp" class="form-text text-muted">You can choose to clear this from local storage.</small>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-warning">Clear</button>
+        <button type="submit" class="btn btn-primary" id="submit-button">Submit</button>
+        <button type="button" class="btn btn-warning id="clear-button">Clear</button>
       </form>
 
     </div>
   </div>`)
+
+
+  // let submitButton = $("#submit-button");
+  $("#clear-button").on("click", console.log("submitButton"))
 }
 
 // returns answer for each question
@@ -249,8 +231,8 @@ $("#appendStorage").text(localStorage.getItem("name"));
 
 // dynamic css events
 // ====================================================================================================
-const hideCard = () => {
-  $("#start-quiz-text").slideUp(); //start quiz card fadeout
+const hideCard = (htmlId) => {
+  $(htmlId).slideUp(400); //start quiz card fadeout
 };
 
 const hideButton = () => {
@@ -270,13 +252,18 @@ const answeredCorrectlyStyleChange = () => {
 
 
 
+
+
+
+
+
   
-    // console.log(buttonText[0].innerText);
-    // console.log(document.getElementsByClassName("choice-button"));
-    // console.log(buttonText[0].addEventListener(("click"), answerChecker()))
+// console.log(buttonText[0].innerText);
+// console.log(document.getElementsByClassName("choice-button"));
+// console.log(buttonText[0].addEventListener(("click"), answerChecker()))
 
 
-    // generates questions
+// generates questions
 // ====================================================================================================
 // const answerGenerator = (objIndex) => {
 //   console.log(objIndex)
@@ -323,6 +310,30 @@ const answeredCorrectlyStyleChange = () => {
 //     return button;
 //   }
 
+    // the logic here only needs to encapsulate whether the answer is correct or not. it only accepts the second argument as its case value, not the "idParam" argument. As such, the correctAnswer argument is the only thing that matters here. This is a note specifically for myself, RP, because I had to figure this out the hard way.
+    // case 2 , correctAnswer:
+    //   score++;
+    //   createCard(idParam)
+    // break;
+
+    // case 3 , correctAnswer:
+    //   score++;
+    //   createCard(idParam)
+    // break;
+
+    // case 4 , correctAnswer:
+    //   score++;
+    //   createCard(idParam)
+    // break;
+
+    // case 5 , correctAnswer:
+    //   score++;
+    //   console.log("case 5")
+    // break;
+
+    // case 5 , !correctAnswer:
+    //   time -= 15;
+    // break;
 
 
 
